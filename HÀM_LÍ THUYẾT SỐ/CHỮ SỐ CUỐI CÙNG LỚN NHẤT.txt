@@ -1,0 +1,76 @@
+Viết chương trình C cho phép nhập vào n và liệt kê các số nguyên tố thỏa mãn nhỏ hơn hoặc bằng n và có chữ số cuối cùng lớn nhất. Có bao nhiêu số như vậy?
+
+Input Format
+
+Số nguyên dương n
+
+Constraints
+
+1≤n≤10^7
+
+Output Format
+
+Dòng đầu tiên liệt kê các số thỏa mãn, và dòng thứ 2 in ra số lượng số thỏa mãn.
+
+Sample Input 0
+
+200
+Sample Output 0
+
+2 3 5 7 11 13 17 19 23 29 37 47 59 67 79 89 101 103 107 109 113 127 137 139 149 157 167 179 199
+29
+
+
+
+
+#include<bits/stdc++.h>
+#include<set>
+using namespace std;
+#define ll long long 
+#define foru(i,a ,b) for(int i=a;i<=b;i++)
+
+
+ll n ;
+ll prime[10000007];
+void sang(){
+    for(ll i=0;i<10000000;i++){
+        prime[i] =1;
+    }
+    prime[0] =prime[1]=0;
+    for(ll i=2;i<=sqrt(10000000);i++){
+        if(prime[i]){
+            for(ll j=i*i;j<=10000000;j+=i){
+                prime[j]=0;
+            }
+        
+        }
+    }
+
+}
+
+
+ll check(ll n ){
+    int r =n%10;
+    while(n){
+        if(r<(n%10)){
+            return 0;
+        }
+        n/=10;
+    }
+    return 1;
+}
+int main(){
+    sang();
+    cin>>n;
+    int cnt=0;
+    for(int i=2;i<=n;i++){
+        if(check(i)&&prime[i]){
+            cout<<i<<" ";
+            ++cnt;
+        }
+    }
+
+    cout<<endl<<cnt<<endl;
+
+
+}

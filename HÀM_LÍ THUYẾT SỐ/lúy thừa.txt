@@ -1,0 +1,27 @@
+//a^b%mod chuẩn xác nhât
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long 
+const ll mod =1e9+7;
+
+ll a, b;
+ll powmod(ll a, ll b )
+{
+    ll res=1;
+    a%=mod;
+    while(b){
+        if(b%2==1){
+            res=(res%mod)*(a%mod)%mod;
+
+        }
+        a=(a%mod)*(a%mod)%mod;
+        b/=2;
+    }
+    return res;
+}
+int main(){
+
+    cin>>a>>b;
+    cout<<powmod(a, b)<<endl;
+
+}

@@ -1,0 +1,7 @@
+int degree2(int n, int p){
+    int ans =0;
+    for(int i=p;i<=n;i*=p){
+        ans += n/i;
+    }
+    return ans ;
+}

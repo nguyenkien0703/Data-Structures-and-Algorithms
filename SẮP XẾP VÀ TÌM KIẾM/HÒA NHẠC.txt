@@ -1,0 +1,89 @@
+Có n vé xem hòa nhạc có sẵn, mỗi vé có một mức giá nhất định. Sau đó, m khách hàng lần lượt đến. Mỗi khách hàng thông báo mức giá tối đa mà họ sẵn sàng trả cho một vé và sau đó, họ sẽ nhận được một vé với mức giá gần nhất có thể sao cho không vượt quá mức giá tối đa.
+
+Input Format
+
+Dòng đầu tiên chứa các số nguyên n và m: số lượng vé và số lượng khách hàng. Dòng tiếp theo ghi n số nguyên h1, h2,…, hn: giá của từng vé. Dòng cuối cùng chứa m số nguyên t1, t2,…, tm: giá tối đa cho mỗi khách hàng theo thứ tự họ đến.
+
+Constraints
+
+1≤ n, m ≤2.10^5; 1≤ ti, hi ≤10^9
+
+Output Format
+
+In, cho mỗi khách hàng, giá mà họ sẽ trả cho vé của họ. Sau đó, vé không thể được mua lại lần nữa. Nếu khách hàng không lấy được vé nào, hãy in −1.
+
+Sample Input 0
+
+5 3
+5 3 7 8 5
+4 8 3
+Sample Output 0
+
+3
+8
+-1
+
+//cho các phầnt tử kia vào một cái set để nó tăng dần , và mục rtiêu bài này là đi tìm số lớn hơn ai , kiểu như là upppẻ_bound()
+//thì nếu mình đã tìm dc số này rồi , thì mình chỉ cân giảm một chí số là ra  thằng cần tìm hôi 
+//vì các số trong mảng đã tăng dần rồi mà 
+
+
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef unsigned long long ull;
+
+#define X first
+#define Y second
+#define pb push_back
+#define mp make_pair
+#define ep emplace_back
+#define EL printf("\n")
+#define sz(A) (int) A.size()
+#define FOR(i,l,r) for (int i=l;i<=r;i++)
+#define FOD(i,r,l) for (int i=r;i>=l;i--)
+#define fillchar(a,x) memset(a, x, sizeof (a))
+#define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define kien sort(a,a+n);
+
+
+
+int main(){
+    
+    ll n ,m;
+    cin>>n>>m;
+    multiset<int > se;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>> x;se.insert(x);
+    }
+    for(int i=0;i<m;i++){
+        int x ;
+        cin>>x;
+        auto it= se.upper_bound(x);
+        if(it!=se.begin()){
+            --it;
+            cout<<(*it)<<endl;
+            se.erase(it);
+        }else if(it==se.begin()){
+            cout<<-1<<endl;
+        }
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+

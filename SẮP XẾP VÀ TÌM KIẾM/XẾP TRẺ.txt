@@ -1,0 +1,83 @@
+Có n đứa trẻ muốn đi đu quay, và nhiệm vụ của bạn là tìm một chiếc thuyền gondola cho mỗi đứa trẻ. Mỗi chiếc gondola có thể có một hoặc hai người trong đó và ngoài ra, tổng trọng lượng của một chiếc gondola không được vượt quá x. Bạn biết cân nặng của mọi đứa trẻ. Số lượng thuyền gondola tối thiểu cần thiết cho trẻ em là bao nhiêu?
+
+Input Format
+
+Dòng nhập đầu tiên chứa hai số nguyên n và x: số đứa trẻ và trọng lượng tối đa cho phép. Dòng tiếp theo chứa n số nguyên p1, p2,…, pn: trọng lượng của mỗi đứa trẻ
+
+Constraints
+
+1≤ n ≤2.10^5; 1≤ x ≤10^9; 1≤ pi ≤ x;
+
+Output Format
+
+In một số nguyên: số lượng thuyền gondola tối thiểu.
+
+Sample Input 0
+
+4 10
+7 2 3 9
+Sample Output 0
+
+3
+
+//sắp xếp tăng dần rồi dùng hai con trỏ , dự định là sẽ cho thằng năj và thằng nhẹ đi với nhau 
+//nếu tổng khối lượng của cặp này mà nhỏ hơn k , oike cho hai thằng này lên thuyền và
+//tiếp tục với cặp khác , còn nếu tổng trọng lượng lớn hơn k thi f cho thằng nặng đi một mình 
+//còn thằng nhẹ kia thì lại đi với thằng nặng káhc 
+
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+typedef pair<int, int> pi;
+typedef vector<int> vi;
+typedef vector<pi> vii;
+
+#define X first
+#define Y second
+#define pb push_back
+#define all(a) a.begin(), a.end()
+#define mp make_pair
+#define ep emplace_back
+#define EL printf("\n")
+#define sz(A) (int)A.size()
+#define FOR(i, l, r) for (int i = l; i <= r; i++)
+#define FOD(i, r, l) for (int i = r; i >= l; i--)
+#define fillchar(a, x) memset(a, x, sizeof(a))
+#define faster                        \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL);
+ll max(ll a, ll b)
+{
+    return a > b ? a : b;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    ll n, s;
+    cin >> n >> s;
+    vi a;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        a.push_back(x);
+    }
+    sort(a.begin(), a.end());
+
+    int cnt =0, l =0, r=n-1;
+    while(l<=r){
+        if(a[l]+a[r]<=s){
+            ++cnt;++l;--r;
+        }else {
+            ++cnt;--r;
+        }
+    }
+    cout<<cnt;
+}

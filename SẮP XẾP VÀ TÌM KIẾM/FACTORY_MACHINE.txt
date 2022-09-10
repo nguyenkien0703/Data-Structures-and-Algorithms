@@ -1,0 +1,95 @@
+Một nhà máy có n máy có thể được sử dụng để tạo ra sản phẩm. Mục tiêu của bạn là tạo ra tổng số sản phẩm. Đối với mỗi máy, bạn biết số giây nó cần để tạo ra một sản phẩm. Các máy có thể hoạt động đồng thời và bạn có thể tự do quyết định lịch trình của chúng. Thời gian ngắn nhất cần thiết để làm ra t sản phẩm là bao nhiêu? (Gợi ý : Binary search on answer)
+
+Input Format
+
+Dòng nhập đầu tiên có hai số nguyên n và t: số lượng máy móc và sản phẩm. Dòng tiếp theo ghi n số nguyên k1, k2,…, kn: thời gian cần thiết để tạo ra một sản phẩm sử dụng mỗi máy.
+
+Constraints
+
+1≤n≤2⋅10^5; 1≤t≤10^9; 1≤ki≤10^9;
+
+Output Format
+
+In một số nguyên: thời gian tối thiểu cần thiết để tạo ra t sản phẩm.
+
+Sample Input 0
+
+3 7
+3 2 5
+Sample Output 0
+
+8
+Explanation 0
+
+Giải thích test : Trong 8s, máy 1 làm được 2 sản phẩm, máy 2 làm được 4, máy 3 làm được 1 sản phẩm.
+
+
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef unsigned long long ull;
+
+#define X first
+#define Y second
+#define pb push_back
+#define mp make_pair
+#define ep emplace_back
+#define EL printf("\n")
+#define sz(A) (int) A.size()
+#define FOR(i,l,r) for (int i=l;i<=r;i++)
+#define FOD(i,r,l) for (int i=r;i>=l;i--)
+#define fillchar(a,x) memset(a, x, sizeof (a))
+#define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define kien sort(a,a+n);
+ll n , t;
+
+bool check(ll a[],ll n, ll mid , ll t ){
+    ll cnt =0;
+    for(int i=0;i<n;i++){
+        cnt+=mid/a[i];//số lượng sản phẩm tạo ra của máy thứ i 
+    }
+    //vì đề yêu cầu là phải tạo ra dc t sản phầm , nên tổng số lượng tạo ra dc phải >= t
+    return cnt>=t;
+}
+//idea bài này là chặt nhị phân , nhưng bình hthường là chặt index
+//còn ở đây là chặt giá trị , thời gina tối thiếu nó sẽ nằm từ 0 đené (min nhất của mảng )*t
+
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+    cin>>n>>t;
+    ll a[n];
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+    }    
+    ll l=0, r=*min_element(a,a+n)*t;
+    ll res=0;
+    while(l<=r){
+        ll mid =(l+r)/2;
+        if(check(a,n,mid,t)==true){
+            //gán mid cho res, rồi đi tìm xem bên trái còn thưangf nào nhỏ hơn mà thỏa mãn k 
+            //idea bài này k khac j bài tìm số nhỏ nhẩt lớn hơn or bằng x 
+            
+            res =mid;
+            r=mid-1;
+        }else {
+            l=mid+1;
+        }
+    }
+    cout<<res<<endl;
+
+
+
+
+
+
+}
+
+

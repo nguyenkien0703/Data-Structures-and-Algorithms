@@ -1,0 +1,182 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+ 
+struct node{
+	int x;
+	node *next;
+}; 
+// cap phat dong 1 node
+node *taoNode(int n ){
+	node *newNode = new node;;
+	newNode->x = n;
+	newNode->next =NULL;
+	return newNode;
+}
+
+//duyet node
+void duyet(node *head){
+	while(head!=NULL){
+		cout<<head->x<<' ';
+		head = head->next;
+	}
+	
+}
+// dem node;
+int cnt(node *head){
+	int ans =0;
+	while(head!=NULL){
+		++ans ;
+		head=head->next;
+	}
+	return ans ;
+}
+// them 1 node vao cuoi danh sacsh
+void themcuoi(node **head,int n ){
+	node* newNode = taoNode(n);
+	node* tmp=*head;
+	if(tmp==NULL){
+		*head=newNode;
+		return;
+	}
+	while(tmp->next !=NULL){
+		tmp = tmp->next;
+	}
+	tmp->next= newNode;
+}
+//them 1 node moi vao dau danh sach
+void themdau(node **head,int n){
+	node* newNode= taoNode(n);
+	newNode->next=*head;
+	*head=newNode;
+		
+	
+}
+// chen vao giua
+void insert(node **head, int n , int k){
+	int sz=cnt(*head);
+//	cout<< "kien\n";
+	if(k<1 || k>sz+1) return ;
+	if(k==1){
+		themdau(head,n);
+	}else if(k==sz+1){
+		themcuoi(head,n);
+	}else {
+		node* tmp=*head;
+		for(int i=1;i<=k-2;i++){
+			tmp= tmp->next;
+		}
+		node* newNode= taoNode(n);
+		newNode->next= tmp->next;
+		tmp->next=newNode;
+	}
+
+}
+
+//xoa node dau tien 
+void xoadautien(node **head){
+	// neu dslk ma chua co node nao ca thi ko can lam gi
+	if(*head == NULL) return ;
+	node*  tmp =*head;
+	*head= tmp->next;
+	// giai phong bo nho cho thang tmp;
+	// vi no het tan dung dc nua roi :)
+	delete []tmp;
+	
+}
+// xoa node cuoi cung , thi danh sach hienej tai
+// co the co 1node or nhieeu node
+void xoacuoi(node **head){
+	if(*head==NULL) return ;
+	node* truoc =*head;
+	node* sau = truoc;
+	// neu co 1 node thi thang truoc va sau trung nhau
+
+	while(truoc->next!=NULL){
+		sau = truoc;
+		truoc=truoc->next;
+	}
+	if(sau->next==NULL){
+		*head=NULL;
+		
+	}else {
+		sau->next=NULL;
+		
+	}
+	
+	
+	/// giai phong bo nho cho thang truoc
+	delete []truoc;
+}
+
+// xoa node o vi tri thu k
+void xoagiua(node **head ,int k){
+	int size =cnt(*head);
+	//neu k thuoc vung ko the xoa dc thi ta ko lam gi ca
+	
+	if(k<1 || k>size){
+		return ;
+	}
+	if(k==1){
+		xoadautien(head);
+	}else {
+		node *truoc=*head;
+		node*sau = truoc;
+		for(int i=1;i<=k-1;i++){
+			if(truoc->next!=NULL){
+				sau=truoc;
+				truoc=truoc->next;
+			}
+		}
+		sau->next=truoc->next;
+		delete []truoc;
+		
+	}
+}
+//sap xep các node
+void sort(node **head){
+	//duyet cac node theo next roi so sanh data cua cac node
+	
+	for(node *i=*head;i!=NULL;i=i->next){
+		node *min =i;
+		for(node *j = i->next;j!=NULL;j=j->next){
+			if(j->x >  min-> x ){
+				min=j;
+			}
+		}
+		// chi hoan doi data, ko hoan doi next
+		swap(min->x,i->x);
+	}
+}
+int main(){
+	node *kien=NULL;
+	for(int i=1;i<=10;i++){
+		themcuoi(&kien,i);
+	}
+	themcuoi(&kien,1);
+	duyet(kien);
+	cout<< "\n kien dep trai vc\n";
+	
+	themdau(&kien,100);
+	duyet(kien);
+	cout<<"xuong dong\n";
+	insert(&kien,90,3);
+	duyet(kien);
+	cout<<"xuong dong lan2\n";
+	xoadautien(&kien);
+	duyet(kien);
+	cout<<"xuong dong lan3\n";
+	xoacuoi(&kien);
+	duyet(kien);
+	cout<<endl;
+	cout<<"sau khi xoa phan tu cuoi cung\n";
+	xoacuoi(&kien);
+	duyet(kien);	
+	xoagiua(&kien,4);
+	cout<<"danh sach sau khi xoa node thu 4 la\n";
+	duyet(kien);
+	sort(&kien);
+	cout<<"dslk sau khi duoc sap xep\n";
+	duyet(kien);
+	
+}

@@ -1,0 +1,77 @@
+Có n người nộp đơn và m căn hộ miễn phí. Nhiệm vụ của bạn là phân phối các căn hộ sao cho càng nhiều người đăng ký sẽ nhận được căn hộ càng tốt. Mỗi người nộp đơn có một kích thước căn hộ mong muốn, và họ sẽ chấp nhận bất kỳ căn hộ nào có diện tích đủ gần với kích thước mong muốn.
+
+Input Format
+
+Dòng nhập đầu tiên có ba số nguyên n, m và k: số người đăng ký, số căn hộ và chênh lệch tối đa cho phép. Dòng tiếp theo chứa n số nguyên a1, a2,…, an: diện tích căn hộ mong muốn của mỗi người đăng ký. Nếu kích thước mong muốn của người nộp đơn là x, người đó sẽ chấp nhận bất kỳ căn hộ nào có kích thước từ x-k đến x + k. Dòng cuối cùng ghi m số nguyên b1, b2,…, bm: diện tích từng căn hộ.
+
+Constraints
+
+1≤ n, m ≤10^5 0≤ k ≤10^9 1≤ai, bi ≤10^9
+
+Output Format
+
+In một số nguyên: số người nộp đơn sẽ nhận được một căn hộ.
+
+Sample Input 0
+
+4 3 5
+60 45 80 60
+30 60 75
+Sample Output 0
+
+2
+
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> ii;
+typedef unsigned long long ull;
+
+#define X first
+#define Y second
+#define pb push_back
+#define mp make_pair
+#define ep emplace_back
+#define EL printf("\n")
+#define sz(A) (int)A.size()
+#define FOR(i, l, r) for (int i = l; i <= r; i++)
+#define FOD(i, r, l) for (int i = r; i >= l; i--)
+#define fillchar(a, x) memset(a, x, sizeof(a))
+#define faster                        \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL);
+#define kien sort(a, a + n);
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+   
+    ll n,m ,k;
+    cin>>n>>m>>k;
+    ll a[n], b[m];
+    for(ll &x : a) cin>> x;
+    for(ll &x : b) cin>> x;
+    sort(a,a+n);
+    sort(b,b+m);
+    ll i=0, j=0,cnt=0;
+    while(i<n&& j< m){
+        if(abs(a[i]-b[j])<=k){
+            ++cnt;++i;++j;
+        }else if(a[i]-b[j]>k){
+            ++j;
+        }else if(a[i]-b[j]<k) {
+            ++i;
+        }
+    }
+    cout<<cnt<<endl;
+
+
+
+}

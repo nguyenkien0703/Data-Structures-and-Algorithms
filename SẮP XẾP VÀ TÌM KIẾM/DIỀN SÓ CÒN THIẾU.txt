@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef unsigned long long ull;
+
+#define X first
+#define Y second
+#define pb push_back
+#define mp make_pair
+#define ep emplace_back
+#define EL printf("\n")
+#define sz(A) (int)A.size()
+#define FOR(i, l, r) for (int i = l; i <= r; i++)
+#define FOD(i, r, l) for (int i = r; i >= l; i--)
+#define fillchar(a, x) memset(a, x, sizeof(a))
+#define faster                        \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL);
+ll cnt[1000006]={0};
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    vector<ll> v;
+    ll  n,l=1e9,r=-1e9;
+    cin>> n;
+    ll a[n];
+    for(ll i = 0; i < n; i++) {
+        cin>>a[i];
+        l=min(l,a[i]);
+        r=max(r,a[i]);
+        cnt[a[i]]=1;
+    }
+
+    int ans=0;
+    for(int i=l;i<=r;i++){
+        if(cnt[i]==0) ++ans;
+    }
+    cout<<ans<<endl;
+}

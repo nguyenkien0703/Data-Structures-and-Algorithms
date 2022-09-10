@@ -1,0 +1,80 @@
+Kì thì cuối kì môn Triết ở trường đại học xyz sắp diễn ra. Tèo và bạn bè có ý định sẽ photo phao thi để bán kiếm tiền, hiện tại Tèo và bạn của mình đã có bản gốc của phao thi. Theo ước tính của tèo thì có n bạn sẽ mua phao thi của tèo. Tèo không có ý định bán bản phao gốc của mình nên sẽ đi photo n bản nữa để bán, tới quán photo chỉ còn 2 máy photo có thể hoạt động. Trong đó máy photo 1 cần x giây để photo xong phao thi cho Tèo, máy thứ 2 cần y giây. Vì muốn nhanh chóng đem phao đi bán nên Tèo muốn nhờ bạn tính hộ là anh ấy cần ít nhất bao nhiêu giây để có thể photo ra n bản khác từ 1 bản gốc ban đầu. Chú ý các máy photo có thể photo từ bản gốc hoặc có thể photo từ bản đã sao đã được in từ bản gốc. 2 máy này có thể hoạt động một cách đồng thời.
+
+Input Format
+
+1 dòng chứa ba số nguyên n, x và y;
+
+Constraints
+
+(1≤n≤2⋅10^8, 1≤x, y≤10).
+
+Output Format
+
+In ra thời gian tối thiểu mà Tèo cần.
+
+Sample Input 0
+
+5 1 2
+Sample Output 0
+
+4
+Explanation 0
+
+Tèo cần photo 5 bản, ban đầu Tèo dùng máy số 1 để photo ra ban sao đầu tiên. Sau đó còn lại 3 giây, Tèo photo được 3 bản từ máy 1 và 1 bản từ máy 2. Vậy là đủ 5 bản.
+--> có nghĩa là từ 1 bản gốc ban dầu thì bạn lây bản đó pho to ở cái máy nhanh hơn đẻ tạo ra một bản sao 
+ rồi từ dó mới pho to hai máy đồng thời 
+
+
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef unsigned long long ull;
+
+#define X first
+#define Y second
+#define pb push_back
+#define mp make_pair
+#define ep emplace_back
+#define EL printf("\n")
+#define sz(A) (int) A.size()
+#define FOR(i,l,r) for (int i=l;i<=r;i++)
+#define FOD(i,r,l) for (int i=r;i>=l;i--)
+#define fillchar(a,x) memset(a, x, sizeof (a))
+#define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#define kien sort(a,a+n);
+ll n , x,y;
+bool check(ll n, ll mid,ll x,ll  y ){
+     
+    ll ans =mid/x+ mid / y;
+    return  ans >=n;
+
+}
+
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin>>n>>x>>y;
+    ll l=0, r=min(x,y)*n,res=0;
+    while(l<=r){
+        int mid=(l+r)/2;
+        if(check(n-1,mid,x,y)){
+            res=mid;
+            r=mid-1;
+        }else {
+            l=mid+1;
+        }
+
+
+
+    }
+    cout<<res+min(x,y)<<endl;
+
+ 
+}
+

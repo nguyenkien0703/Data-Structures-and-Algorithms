@@ -1,0 +1,49 @@
+ //idea là di tìm csac số nguyên tố trong n! xuất hiện bao nhiêu lần 
+//nhớ lại công tính đêm só ước của một số nguyên khi phân tích  nó dưới dfạng các số nguyên tố 
+
+
+#include<bits/stdc++.h>
+using namespace std ;
+#define ll long long
+const ll mod =1e9+7;
+int degree2(int n, int p){
+    int ans =0;
+    for(int i=p;i<=n;i*=p){
+        ans += n/i;
+    }
+    return ans ;
+}
+int nt(int n){
+    for(int i=2;i<=sqrt(n);i++){
+        if(n%i==0){
+            return 0;
+        }
+    }
+    return n> 1 ;
+}
+
+ll check(int n ){
+
+    ll res=1;
+    for(int i=1;i<=n;i++){
+        if(nt(i)){
+            res*=1ll*(degree2(n ,i)+1);
+            res%=mod;
+        }
+    }
+    return res ;
+
+
+
+}
+
+int main(){
+    
+//    int t ;cin>> t ;
+//    while(t--){
+        int n;cin>> n;
+        cout<<check(n)<<endl;
+//    }
+    return 0;
+
+}

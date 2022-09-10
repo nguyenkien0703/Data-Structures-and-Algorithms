@@ -1,0 +1,33 @@
+Đếm số cách đặt 2 con mã trên bàn cờ vua cỡ k × k với k = 1, 2, 3, .. n sao cho chúng không ăn nhau, 2 con mã này được coi là giống nhau.
+
+Input Format
+
+Số nguyên dương n duy nhất
+
+Constraints
+
+1≤n≤10000
+
+Output Format
+
+Gồm n dòng, mỗi dòng là đáp án của bài toán.
+
+Sample Input 0
+
+7
+Sample Output 0
+
+0
+6
+28
+96
+252
+550
+1056
+Explanation 0
+
+Giải thích : với bàn cờ cỡ 1 x 1, không có cách nào. Với bàn cờ cỡ 2x2 có 6 cách đặt 2 con mã sao cho chúng không ăn nhau. Tương tự với các cỡ từ 3 tới 7.
+
+
+
+

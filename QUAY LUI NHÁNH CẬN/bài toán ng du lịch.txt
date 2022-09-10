@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define pii pair<int, int>
+#define vii vector<pii>
+#define pb push_back
+#define fi first
+#define se second
+#define foru(i, a, b) for (int i = a; i <= b; i++)
+#define ford(i, b, a) for (int i = b; i >= a; i--)
+const ll MOD = 1e9 + 7;
+ll n, a[100][100], x[1000];
+ll ans = 1e9, cmin = 1e9, used[100];
+// x[i]: thanhf phố thứ i dc đi thêm 
+void nhap()
+{
+    cin>> n;
+    foru(i, 1, n)
+    {
+        foru(j, 1, n)
+        {
+            cin >> a[i][j];
+            if (a[i][j] != 0)
+            {
+                cmin = min(cmin, a[i][j]);
+            }
+        }
+    }
+}
+ll min(ll a , ll b){
+    return a <b? a : b;
+}
+ll sum = 0;
+void Try(ll i)
+{
+    for (ll j = 2; j <= n; j++)
+    {
+        if (!used[j])
+        {
+            x[i]=j;
+            used[j] = 1;
+            sum += a[x[i-1]][x[i]];
+            if (i == n)
+            {
+                ans = min(ans, sum + a[x[i]][1]);
+            }
+            else if (sum + (n - i) * cmin < ans)
+            {
+                Try(i + 1);
+            }
+            used[j] = 0;
+            sum -= a[x[i-1]][x[i]];
+        }
+    }
+}
+
+int  main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    nhap();
+    x[1]=1;
+    Try(2);
+    cout<<ans;
+}

@@ -1,0 +1,68 @@
+
+Cho mảng số nguyên A[] có N phần tử, hãy sắp xếp các phần tử trong mảng theo thứ tự tổng chữ số tăng dần, nếu 2 số có cùng tổng chữ số, thì số nào nhỏ hơn sẽ được in trước.
+
+Input Format
+
+Dòng đầu tiên là số nguyên dương N. Dòng thứ 2 là N phần tử trong mảng, các phần tử viết cách nhau một dấu cách.
+
+Constraints
+
+1<=N<=10^5; 0<=A[i]<=10^9
+
+Output Format
+
+In ra các phần tử trong mảng sau khi sắp xếp
+
+Sample Input 0
+
+5
+999976710 999982875 999974431 999984407 999972533 
+Sample Output 0
+
+999974431 999972533 999976710 999984407 999982875 
+
+
+
+
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long 
+#define pii pair<int,int> 
+ll n , k;
+ll tinh(ll n ){
+    ll sum =0;
+    while(n){
+        sum+=n%10;
+        n/=10;
+    }
+    return sum ;
+}
+
+bool cmp(pii a, pii b){
+    if(a.second == b.second){
+        return a<b;
+    }else return a.second < b.second;
+}
+int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin>>n;
+    vector<pii> v;
+    ll a[n];
+    for(ll &x : a){
+        cin>>x;
+        v.push_back({x,tinh(x)});
+
+    }
+    sort(v.begin(),v.end(),cmp);
+    for(auto x : v){
+        cout<<x.first<<' ';
+    }
+
+
+   
+} 

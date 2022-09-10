@@ -1,0 +1,79 @@
+Trong lớp học của Tèo có các thanh domino hình chữ nhật có chiều rộng a và có chiều cao b. Tèo hiện là học sinh lớp 1, thầy giáo có giao cho Tèo một bài toán đó là hãy tìm 1 bảng hình vuông có cạnh nhỏ nhất sao cho có thể xếp n thanh domino vào hình vuông này. Tèo không nhất thiết phải xếp kín cái bảng hình vuông này nhưng không được phép xoay ngang thanh domino. Dưới đây là một ví dụ về cách xếp thanh domino có a = 2, b = 3 vào bảng hình vuông có cạnh 9
+
+image
+
+Input Format
+
+3 số a, b, n trên 1 dòng
+
+Constraints
+
+1<=n,a,b<=10^9;
+
+Output Format
+
+In ra chiều dài cạnh của hình vuông nhỏ nhất tìm được.
+
+Sample Input 0
+
+2 3 10
+Sample Output 0
+
+9
+--> có nghĩa là  mình tìm hình vuông có cạnh nhỏ nhất mà nhét hết dc mớ domino kia , 
+//chặt nhị phân trên giá trị 
+
+
+
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> ii;
+typedef unsigned long long ull;
+
+#define X first
+#define Y second
+#define pb push_back
+#define mp make_pair
+#define ep emplace_back
+#define EL printf("\n")
+#define sz(A) (int)A.size()
+#define FOR(i, l, r) for (int i = l; i <= r; i++)
+#define FOD(i, r, l) for (int i = r; i >= l; i--)
+#define fillchar(a, x) memset(a, x, sizeof(a))
+#define faster                        \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL);
+#define kien sort(a, a + n);
+ll a, b, n;
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> a >> b >> n;
+    ll l = 0, r = max(a, b) * n;
+    ll res = 0;
+    while (l <= r)
+    {
+        ll mid = (l + r) / 2;
+        ll x = mid / a;
+        ll y = mid / b;
+        if (x * y >= n)
+        {
+            res = mid;
+            r = mid - 1;
+        }
+        else
+        {
+            l = mid + 1;
+        }
+    }
+    cout << res << endl;
+}

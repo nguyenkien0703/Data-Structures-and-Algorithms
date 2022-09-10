@@ -1,0 +1,50 @@
+
+
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> ii;
+typedef unsigned long long ull;
+
+#define X first
+#define Y second
+#define pb push_back
+#define mp make_pair
+#define ep emplace_back
+#define EL printf("\n")
+#define sz(A) (int)A.size()
+#define FOR(i, l, r) for (int i = l; i <= r; i++)
+#define FOD(i, r, l) for (int i = r; i >= l; i--)
+#define fillchar(a, x) memset(a, x, sizeof(a))
+
+const ll mod = 1e9 + 7;
+
+ll lcm(ll  a , ll b){
+    return a*b/__gcd(a, b);
+}
+void solve(){
+    int x,y,z,n;
+    cin>>x>>y>>z>>n;
+    ll min=pow(10,n-1),max=pow(10,n);
+    ll bcnn=lcm(x,lcm(y,z));
+    if(max<bcnn){
+        cout<<-1<<endl;
+        return ;
+    }
+    if(min%bcnn==0){
+        cout<<min<<endl;
+    }else cout<<((min+bcnn-1)/bcnn)*bcnn<<endl;
+
+
+}
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
+        solve();
+}

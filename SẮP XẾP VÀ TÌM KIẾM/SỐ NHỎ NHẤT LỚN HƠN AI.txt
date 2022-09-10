@@ -1,0 +1,75 @@
+Cho mảng A[] gồm n phần tử. Nhiệm vụ của bạn là tìm giá trị nhỏ nhất (phải thuộc mảng A[]) lớn hơn A[i] (i=0, 1, 2,.., n-1). Đưa ra ‘_’ nếu A[i] không có phần tử nhỏ hơn nó. Ví dụ với mảng A[] = {13, 6, 7, 12}, ta có kết quả là { _ , 7 . 12, 13}.
+
+Input Format
+
+Dòng đầu tiên đưa vào n là số phần tử của mảng A[]; Dòng kế tiếp đưa vào n số A[i] của mảng; các số được viết cách nhau một vài khoảng trống.
+
+Constraints
+
+1≤ N ≤10^5; 1≤ A[i] ≤10^5.
+
+Output Format
+
+Đưa ra kết quả trên 1 dòng
+
+Sample Input 0
+
+9
+6 3 9 8 10 2 1 15 7
+Sample Output 0
+
+7 6 10 9 15 3 2 _ 8
+
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+typedef pair<int,int> pi;
+typedef vector<int> vi;
+typedef vector<pi> vii;
+
+#define X first
+#define Y second
+#define pb push_back
+#define all(a) a.begin(), a.end()
+#define mp make_pair
+#define ep emplace_back
+#define EL printf("\n")
+#define sz(A) (int)A.size()
+#define FOR(i, l, r) for (int i = l; i <= r; i++)
+#define FOD(i, r, l) for (int i = r; i >= l; i--)
+#define fillchar(a, x) memset(a, x, sizeof(a))
+#define faster                        \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL);
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int n;
+    cin >> n;
+    int a[n];
+    vi v(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+        v[i] = a[i];
+    }
+    sort(all(v));
+    for (int x : a)
+    {
+        auto it = upper_bound(all(v), x);
+        if (it == v.end())
+        {
+            cout << "_ ";
+        }
+        else
+            cout << *it << " ";
+    }
+    cout << endl;
+}
