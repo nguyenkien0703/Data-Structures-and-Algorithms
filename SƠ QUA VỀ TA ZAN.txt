@@ -1,0 +1,321 @@
+disc/low
+trong đó: disc là thời gian bắt đầu thăm đỉnh đó 
+		low là thời gian thăm nhỏ nhất của tất cả các tổ tiên ko phỉa 
+		là cha trực tiếp của i
+ĐIỀU KIỆN ĐỂ 1 ĐỈNH LÀ ĐỈNH TRỤ:+)mọi đường đi từ x sang z phải đi qua y=>y là đỉnh trụyk
+					+)y là gốc của thuật toán dfs và có ít nhất hai con
+========thuật tarjan=======40:
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define pii pair<ll, ll> 
+#define vii vector<pii> 
+#define pb push_back 
+#define fi first 
+#define el cout<<endl
+#define se second 
+#define in(a) cin>>  a;
+#define out(a) cout<<  a;
+#define all(x) (x).begin(), (x).end()
+#define rep(a) for(int i = 0; i < (a); i++)
+#define vll vector<ll> 
+#define vi vector<int >
+#define ms(a,n) memset(a,n,sizeof(a))
+#define FOR(i,a,b) for(int i=a;i<=b;i++)
+#define FOD(i,b,a) for(int i=b;i>=a;i--)
+#define faster ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+const ll MOD = 1e9 + 7;
+
+
+
+
+
+
+
+int used[1001];
+vll ke[1001];
+int disc[1001];
+int low[1001];
+int n , m;
+int timer=0;
+set<ll> tru;
+int  dfs(int u , int par){
+    int cnt =0;
+    disc[u]=low[u]=++timer;
+    for(int v : ke[u]){
+        if(v==par ) continue;
+        if(disc[v]==0){
+            dfs(v,u);
+            ++cnt;
+            if(par!=-1 && low[v]>=disc[u]){
+		// v là con của u ,  low[v] >=disc[u] nghĩa là từ v mà muốn quya lại tổ tiên thì bắt buộc phải đi qua đỉnh u 
+		còn nếu như mà có thể có 1 con đường khác đi tới dc tổ tiên thì lúc này low[v] đã < disc[u] rooif
+                tru.insert(u);
+            }
+            low[u]=min(low[u],low[v]);
+        }else {
+            low[u]=min(low[u],disc[v]);
+        }
+    }
+
+return cnt ;
+
+
+}
+void solve(){
+
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x , y;
+        cin>>x>>y;
+        ke[x].pb(y);
+        ke[y].pb(x);
+    }
+    ms(used,0);
+    for(int i=1;i<=n;i++){
+        if(disc[i]==0){
+            int ans =dfs(i,-1);
+            if(ans >=2){
+                tru.insert(i);
+            }
+        }
+    }
+    cout<< tru.size()<<endl;
+
+}
+
+int main()
+{
+    faster;
+    solve();
+    
+
+}
+
+=======thuật DSU(tìm:Find và gộp:Union)=========
+
+int parent[1001];
+int sz[1001];
+void init(){
+    for(int i=1;i<=n;i++){
+        sz[i]=1;
+        parent[i]=i;
+    }
+}
+//Find(u)=>tim ra cha cua dinh u 
+bool Find(int u ){
+    if(u==parent[u]){
+        return u;
+    }else {
+        return  parent[u]=Find(parent[u]);
+    }
+}
+// gop dc thif tra ve true, ko thi false
+bool Union(int u , int v ){
+    u=Find(u);
+    v=Find(v);
+    // hai thang cung 1 tap hop thi ko gop dc 
+    if(v==u){
+        return false;
+    }
+    if(sz[u]<sz[v]){
+        parent[u]=v;
+        sz[v]+=sz[u];
+    }else {
+        parent[v]=u;
+        sz[u]+=sz[v];
+    }
+    return true;
+
+
+}   
+======thuật kruskal để tìm cây khung cực tiểu có trọng số=========
+(là cây kết nối tất cả các đỉnh trên đồ thị và ko có chu trình )
+idea: tư tưởng tham lam, sort theo danh sach cạnh với trognj số tăng dần
+tiếp theo thì kruskal sẽ đưa các cạnh có trọng số ngắn nhất  vào để tạo thanh cây khung cực tiểu nhưng 
+trc tkhi thêm thì nó sẽ check xem cạnh đưa vào nó có tạo với cạnh khác đã có có tạo thành chu trình hay không 
+nếu muốn check xem khi thêm cạnh này vào có tạo thành chu trình hay không , ta gọi hàm Union, 
+nếu Union trả về false nghĩa là tạo thành chu trình(nằm cùng 1 thành phần liên thông rồi)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<ll, ll> 
+#define vii vector<pii> 
+#define pb push_back 
+#define fi first 
+#define el cout<<endl
+#define se second 
+#define in(a) cin>>  a;
+#define out(a) cout<<  a;
+#define all(x) (x).begin(), (x).end()
+#define rep(a) for(int i = 0; i < (a); i++)
+#define vll vector<ll> 
+#define vi vector<int >
+#define ms(a,n) memset(a,n,sizeof(a))
+#define FOR(i,a,b) for(int i=a;i<=b;i++)
+#define FOD(i,b,a) for(int i=b;i>=a;i--)
+#define faster ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+const ll MOD = 1e9 + 7;
+int n ;
+int parent[1001];
+int sz[1001];
+void init(){
+    for(int i=1;i<=n;i++){
+        parent[i]=i;
+        sz[i]=1;
+    }
+}
+bool Find(ll u ){
+    if(u==parent[u]){
+        return u;
+    }else {
+        return parent[u]=Find(parent[u]);
+    }
+}
+bool Union(int u,int v ){
+    u=Find(u);
+    v=Find(v);
+    if(v==u){
+        return false;
+
+    }
+    if(sz[u]<sz[v]){
+        parent[u]=v;
+        sz[v]+=sz[u];
+    }else {
+        parent[v]=u;
+        sz[u]+=sz[v];
+    }
+    return true;
+}
+
+struct  canh
+{
+    int x, y, w;
+    
+};
+vector<canh> edge;
+vector<canh> caykhungcuctieu;
+
+void kruskal(){
+    // buoc 1 : sort theo trong so tang dan
+    for(int i=0;i<n;i++){
+        int x,y,w;
+        cin>>x>>y>>w;
+        edge.pb({x,y,w});
+
+    }
+    sort(all(edge),[](edge x,edge y)->bool{
+        return x.w < y.w;
+    })
+    int d=0;// lưu tổng trọng số nhỏ nhất cần tìm 
+    for(int i=0;i<n;i++){
+        if(caykhungcuctieu.size()==n-1) break;
+        int u=canh[i].x,v=canh[i].v;
+        if(Union(u,v)){
+            caykhungcuctieu.pb(canh[i]);
+            d+=canh[i].w;
+        }        
+    }    
+}   cout<< d<<endl;
+
+
+int main()
+{
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif 
+    faster;
+    
+
+}
+
+====CÁC THUẬT TÌM ĐƯỜNG ĐI NGẮN NHẤT TREEN ĐỒ THỊ (dijkstra,bellman ford, floyd) từ 1 đỉnh đến mọi đỉnh trên đồ thị=======
+
+ THUẬT DIJKSTRA có thể dùng trên đồ thị vô hướng và có hướng, chỉ áp dụng dc trên đồ thị có trọng số ko âm
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<ll, ll> 
+#define vii vector<pii> 
+#define pb push_back 
+#define fi first 
+#define el cout<<endl
+#define se second 
+#define in(a) cin>>  a;
+#define out(a) cout<<  a;
+#define all(x) (x).begin(), (x).end()
+#define rep(a) for(ll i = 0; i < (a); i++)
+#define vll vector<ll> 
+#define vi vector<ll >
+#define ms(a,n) memset(a,n,sizeof(a))
+#define FOR(i,a,b) for(ll i=a;i<=b;i++)
+#define FOD(i,b,a) for(ll i=b;i>=a;i--)
+#define faster ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+const ll MOD = 1e9 + 7;
+
+ll n, m,s;
+vii ke[1001];//thằng đầu tiên lưu khoảng cách min từ s đến đỉnh hiện tại ,tk thứ hai lưu đỉnh hiện tại
+
+ll used[1001];
+void nhap(){
+    cin >> n >> m>>s;
+    for (ll i = 0; i < m;i++){
+        ll x, y, w;
+        cin>>x>>y>>w;
+        ke[x].pb({y, w});
+        ke[y].pb({x, w});
+    }
+}
+void dijakstra(ll s){
+    vll d(n + 1, 1e9);
+    ms(used, 0);
+    // sap xep giam dan các trong so
+    priority_queue<pii, vii, greater<pii>> q;
+    q.push({0,s});
+    d[s] = 0;
+    while(!q.empty()){
+        pii top = q.top();
+        q.pop();
+        if(used[top.se]==1)
+            continue;
+        used[top.se] = 1;
+        ll u = top.second;
+        for(auto it:  ke[u]){
+            ll v = it.fi, w = it.se;
+            if(d[v] > d[u]+ w ){
+                d[v] = d[u] + w;
+                q.push({d[v],v});
+            }
+        }
+
+    }
+    for (ll i = 1; i <= n;i++){
+        cout<<d[i]<<' ';
+
+    }
+}
+
+void solve(){
+    
+
+}
+int  main()
+{
+    
+    faster;
+    nhap();
+    dijakstra(s);
+}
+
+====	THUẬT FLOY CHECK TRÊN ĐỒ THỊ CÓ TRỌNG SỐ KO ÂM ,ĐƯỜNG ĐU NGẮN NHẤT GIỮA HAI ĐỈNH BẤT KÌ====
+
+
+
+
+

@@ -76,7 +76,6 @@ void dfs(int u){
 }
 
 void T_dfs(int u ){
-    // cout << u << ' ';
     used[u] = 1;
 
     for(int x : T_ke[u]){
@@ -110,7 +109,6 @@ void solve(){
         if(!used[top]){
             ++cnt;
             T_dfs(top);
-            // cout << endl;
         }
     }
     cout << (cnt == 1 ? 1 : 0);

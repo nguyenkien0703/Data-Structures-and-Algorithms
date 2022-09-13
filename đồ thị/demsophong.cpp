@@ -1,9 +1,12 @@
 /*
-Bạn được đưa cho một bản đồ của một tòa nhà và nhiệm vụ của bạn là đếm số lượng phòng của tòa nhà đó. Kích thước của bản đồ là n × m hình vuông và mỗi hình vuông là sàn hoặc tường. Bạn có thể đi bộ sang trái, phải, lên và xuống qua các ô sàn.
+Bạn được đưa cho một bản đồ của một tòa nhà và nhiệm vụ của bạn là đếm số lượng phòng của tòa nhà đó. 
+Kích thước của bản đồ là n × m hình vuông và mỗi hình vuông là sàn hoặc tường. Bạn có thể đi bộ sang trái, phải, lên và xuống qua các ô sàn.
 
 Input Format
 
-Dòng nhập đầu tiên có hai số nguyên n và m: chiều cao và chiều rộng của bản đồ. Khi đó có n dòng gồm m ký tự mô tả bản đồ. Mỗi ký tự là một trong hai ký tự '.' hoặc '#' tương ứng với sàn nhà và tường.
+Dòng nhập đầu tiên có hai số nguyên n và m:
+ chiều cao và chiều rộng của bản đồ. Khi đó có n dòng gồm m ký tự mô tả bản đồ.
+  Mỗi ký tự là một trong hai ký tự '.' hoặc '#' tương ứng với sàn nhà và tường.
 
 Constraints
 
@@ -73,7 +76,6 @@ void dfs(int i,int j ){
         int j1=j+dy[k];
         if(i1>=1 && i1<= n  && j1>=1 && j1<=m && a[i1][j1]=='.'){
             dfs(i1, j1);
-            a[i1][j1] = '#';
 
         }
 
