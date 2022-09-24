@@ -1,0 +1,222 @@
+==xâu con chung dài nhất liên tiếp =====
+dp[i][j]: xau con chung dai nhat tu chi so 1 den chi so i cua s va tu 1 den j cua xau t
+	if(s[i-1]==t[j-1]){
+		dp[i][j]= dp[i-1][j-1] + 1;
+	}else {
+		dp[i][j] = max(dp[i-1][j],dp[i][j-1])
+	}
+========dãy con có tổng bằng s========
+dp[i][j]: lieu co the chonj ra day con tu 1 den i ma co tong la j hay khoonh 
+for (int i = 0; i < n;i++){
+		for (int sum = 0; sum <= tong;sum++){
+			if(sum < a[i]){
+				dp[i][sum] = dp[i - 1][sum];
+			}else {
+				dp[i][sum] = dp[i - 1][sum] || sp[i - 1][sum - a[i]];
+			}
+		}
+	}
+===========bafi toans casi tuis======
+dp[i][j] : gia tri lon nhat cua cai tui la j khi lay cac do vat tu thu 1 den thu i 
+dp[n][v]
+d[i][j]= dp[i-1][j]
+dp[i][j] = max(dp[i][j],dp[i-1][j-w[i]] + v[i]
+---code
+int n, s;
+    cin >> n >> s;
+    int w[n], v[n];
+    for(int i=1;i<=n;i++){
+        cin>>w[i];
+    }
+    for(int i=1;i<=n;i++){
+        cin>>v[i];
+    }
+    int dp[n+1][s+1];
+    ms(dp, 0);
+    for(int i=1;i<=n;i++){
+        for (int j = 1; j <= s;j++){
+            dp[i][j] = dp[i - 1][j];
+            if(w[i]<=j){//neu trong luong cua tui tiep theo ma  nho hon tong trong luong hien tai cua cai tui
+
+                dp[i][j] =max(dp[i][j],dp[i - 1][j-w[i]]+v[i]);
+            }
+        }
+    }
+==========Tổng không liền kề(tings tổng lớn nhất của các ptu trong mang, ko dc kề nhau)======
+int sum[n];
+    sum[0]=a[0];
+    sum[1]=max(a[0],a[1]);
+    for(int i=2;i<n;i++){
+        sum[i]=max(sum[i-2]+a[i],sum[i-1]);
+    }
+    cout<<sum[n-1];
+===========tổng lớn nhất của dãy con tăng dần============
+ vector<int> dp(n, 0);
+    int ans = a[0];
+    dp[0] = a[0];
+    for (int i = 1; i < n; i++)
+    {
+        int add = 0;
+        for (int j = 0; j < i; j++)
+        {
+            if (a[j] < a[i])
+            {
+                add = max(add, dp[j]);
+            }
+        }
+
+        dp[i] = add + a[i];
+        ans = max(ans, dp[i]);
+    }
+    cout << ans << endl;
+=============CÁC BÀI TOÁN COIN=====
++) BÀI 1: đổi tiền sao cho tờ trả lại là ít nhất có thể
+dp[i] so luong dong tien toi thieu de tao ra so tien la i 
+
+    dp[0]=0;
+    for(int i=1;i<=s;i++){
+        for(int j=0;j<n;j++){
+            if(i-a[j]>=0){
+                dp[i]=min(dp[i],dp[i-a[j]]+1);
+            }
+        }
+    }
+
++)BAI 2 : ĐẾM SỐ CÁCH RIÊNG BIỆT MÀ CÓ THỂ TẠO RA SỐ TIỀN LÀ S (KO TÍNH HOÁN ĐỔI (TRƯỜNG HỢP NÀY LÀ 1 2 3 VẪN BẰNG 1 3 2))
+DP[i] : số cách để tạo ra tổng tiền co gia tri la i
+
+dp[0]=1;
+    for(ll i=1;i<=k;i++){
+        for(ll j=0;j<n;j++){
+            if(i<a[j]) continue;
+            dp[i]=((ll)dp[i]+dp[i-a[j]])%mod;
+        }
+    }
+
++)BAI 3 : nhu bai 2 nhung co  tijh den hoan doi 
+van goi dp nhu vayj , nhung khac cach duyet ma thoiu'
+dp[0] = 1;
+    for(int i = 0 ; i < n ;i++)
+    {
+        for(int j = a[i] ; j <= m ; j++)
+        {
+            dp[j] += dp[j - a[i]];
+            dp[j] %= MOD;
+        }
+    }
+
+
+
+=========SUM STRING=====
+/*
+
+Cho một số tự nhiên N được biểu diễn như một xâu kí tự, bạn hãy tính tổng của tất cả các số tạo bởi các xâu con liên tiếp của N, ví dụ N = 235 thì ta có tổng = 2 + 3 + 5 + 23 + 35 + 235.
+*/
+dp[i]: tong tat ca cac so co the tao thanh tu 1 den chi so i
+ cin>>s;
+    int n =s.length();
+    ll dp[n];
+    dp[0]=s[0]-'0'; 
+    ll sum =dp[0];
+    for(int i=1;i<n;i++){
+        dp[i]=10*dp[i-1]+(s[i]-'0')*(i+1);
+        sum+=dp[i];
+    }    
+    cout<<sum<<endl;
+
+===================XÂU CON ĐỐI XỨNG DÀI NHẤT(lien tiep ) ================
+goi dp[i][j] la xau con doi xung dai nhat bat dau tu chi va co do dai la j 
+method: dung mảng hai chiều 
+ ll  n=s.size();
+
+    s = "@" + s;
+    ll dp[n+1][n+1];
+    ms(dp, 0);
+    for (ll i = 1; i <= n;i++){
+        dp[i][i] = 1;
+    }
+    ll ans = -1;
+    for (ll len = 2; len <= n;len++){
+        for (ll i = 1; i <= n-len+1;i++){
+
+            ll j = len + i - 1;
+            if(len==2){
+                if(s[i]==s[j]){
+                    dp[i][j] = 1;
+                }
+            }
+            else {
+                dp[i][j] = dp[i + 1][j - 1] && (s[i] == s[j]);
+            }
+            if(dp[i][j]==1) {
+                ans =max(ans,len);
+            }
+        }
+    }
+    cout << ans << endl;
+=============XAU CON CHUNG DAI NHAT PRO()(QHD + CHAT NHI PHAN)===================
+ ll n ;
+        cin>> n;    
+        ll a[n];
+        for(ll i=0;i<n;i++){
+            cin>>a[i];
+        }
+        vll v;
+        v.pb(a[0]);
+        for(ll i=0;i<n;i++){
+            auto  it=lower_bound(all(v),a[i]);
+            if(it!=v.end()){
+                *it=a[i];
+            }else {
+                v.pb(a[i]);
+            }
+        }
+        cout<<v.size()<<endl;
+        v.clear();
+========XÓA CHỮ SỐ (CHO 1 SỐ, MỖI THAO TÁC DC XÓA SỐ ĐÓ VỚI 1 CHỮ SỐ TRONG SỐ ĐÓ., TÌM THAO THÁC THỐI THIỂU ĐỂ BẰNG 0)
+gọi dp[i]: so thao tac toi thieu de tao ra gia tri i(tuương tự bài coin 1)
+  int n;
+    cin>>n;
+    for(int i=1;i<=9;i++){
+        f[i]=1;
+    }
+    for(int i=10;i<=n;i++){
+        vector<int>tmp;
+        tmp.clear();
+        int z=i;
+        f[i]=INT_MAX;
+        while(z!=0){
+            tmp.push_back(z%10);
+            z/=10;
+        }
+        for(auto a:tmp){
+
+            if(a!=0){
+                f[i]=min(f[i],f[i-a]+1);
+            }
+        }
+    }
+    cout<<f[n];
+=======(1 bài đặc biêtt : biến tương coin 2 )
+/*
+Nhiệm vụ của bạn là đếm số cách các số 1,2,…, n có thể chia thành hai tập có tổng bằng nhau. Các phần tử trong tập không xét đến thứ tự Ví dụ, nếu n = 7, có bốn nghiệm: {1,3,4,6} và {2,5,7}. {1,2,5,6} và {3,4,7}. {1,2,4,7} và {3,5,6}. {1,6,7} và {2,3,4,5}.
+
+
+\*/
+
+ int n;
+    cin>>n;
+    int sum=n*(n+1)/2;
+    if(sum%2!=0){
+        cout<<0;
+    }else{
+        sum/=2;
+        f[0]=1;
+        for(int i=1;i<=n;i++){
+            for(int j=sum;j>=i;j--){
+                f[j]=(f[j]%mod+f[j-i]%mod)%mod;    
+            }
+        }
+        long long x=500000004;
+        cout<<(f[sum]*x)%mod;
+    }
