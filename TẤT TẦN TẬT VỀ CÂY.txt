@@ -1,0 +1,304 @@
+======mở đầu về cây và 1 số thao tác chính========
+struct node{
+    int val ;
+    node *left, *right;
+    node (int x ){
+        val=x;
+        left=NULL;
+        right=NULL;
+    }
+};
+
+void makeRoot(node *root, int u , int v , char c ){
+    if(c=='L') root->left=new node(v);
+    else {
+        root->right=new node(v);
+    }
+}
+// chen 1 node khi nhap danh sach
+void insertNode(node *root, int u , int v ,char c){
+    if(root==NULL) return;
+    if(root->val ==u){
+        makeRoot(root,u,v,c);
+    }else {
+        insertNode(root->left,u,v,c);
+        insertNode(root->right,u,v,c);
+    }
+
+}
+//chen 1 node moi hoan toan vao danh sach
+node *insert(node *root,int x){
+    if(root==NULL){
+        return new node(x);
+    }
+    if(x< root->val){
+        root-left=insert(root->left,x);
+    }else {
+        root->right=insert(root->right,x);
+    }
+    return root;
+}
+
+
+
+======duyệt cây =====
++)inorder:(left,root,right)
++) preorder(root, left, right)
++)postorder(left, right, root)
+
+==========kiểm tra node lá cùng mức=====
+bool check(Node *root,int h , int &maxh){
+    if(root ==NULL) return true;
+    if(root->right==NULL && root->left==NULL)
+    {
+        if(maxh==0){
+            maxh=h;
+            return true;
+        }else {
+            return h == maxh;
+        }
+    }
+    else {
+        return check(root->left, h + 1, maxh) && check(root->right, h + 1, maxh);
+    }
+
+
+}
+
+
+========duyệt theo mứcc================
+
+void bfs(Node *root){
+    queue<Node*> q;
+    q.push(root);
+    while(!q.empty()){
+        Node *f = q.front();
+        q.pop();
+        cout << f->val << ' ';
+        if(f->left!=NULL) q.push(f->left);
+        if(f->right!=NULL) q.push(f->right);
+    }
+
+}
+======duyệt xoắn ốc=====
+void bfs(Node *root){
+    stack<Node*> st1;
+    stack<Node*> st2;
+    st1.push(root);
+    while(!st1.empty()|| !st2.empty()){
+       while(!st1.empty()){
+           Node *f = st1.top();
+           st1.pop();
+           cout << f->val << ' ';
+           if(f->right!=NULL) st2.push(f->right);
+           if(f->left!=NULL) st2.push(f->left);
+       }
+       while(!st2.empty()){
+           Node *kien = st2.top();
+           st2.pop();
+           cout<<kien->val << ' ';
+           if(kien->left!=NULL) st1.push(kien->left);
+           if(kien->right!=NULL) st1.push(kien->right);
+       }
+    }
+
+}
+
+
+
+======cây nhị phân hoàn hảo=====
+Lí thuyết :là cây nhị phân đầy đủ(mỗi node có hai node trái and phải) và có cùng mức
+bool check(Node * root, int h , int maxh){
+    if(root ==NULL)
+        return true;
+    if(root->left == NULL && root->right == NULL){
+        if(maxh==0){
+            maxh = h;
+            return true;
+        }else {
+            return h==maxh;
+        }
+    }else{
+        return check(root->left,h+1,maxh) && check(root->right,h+1,maxh);
+    }
+    return false;
+}
+bool check1(Node *root){
+    if(root ==NULL)
+        return true;
+    if(root->left ==NULL && root->right ==NULL){
+        return true;
+    }
+    if(root->right !=NULL && root->left!=NULL){
+        return check1(root->right) && check1(root->left);
+    }else {
+        return false;
+    }
+}
+
+=====-======TÌM min, max trên cây nhị phan tìmkiếm =======
++) lí thuyyết
+0(logn) : search< insert,d
+1: tất cả các node thuộc cây con bên trái phải nhỏ hơn node gốc
+2: tất cả các node thuộc cây con bên phải phải lớn hơn node gốc
+3: cây con bên trái,phải cũng phải là cây nhị phân tìm kiếm
+
+// chen 1 node khi nhap danh sach
+void insertNode(node *root, int u , int v ,char c){
+    if(root==NULL) return;
+    if(root->val ==u){
+        makeRoot(root,u,v,c);
+    }else {
+        insertNode(root->left,u,v,c);
+        insertNode(root->right,u,v,c);
+    }
+
+}
+//chen 1 node moi hoan toan vao danh sach
+node *insert(node *root,int x){
+    if(root==NULL){
+        return new node(x);
+    }
+    if(x< root->val){
+        root-left=insert(root->left,x);
+    }else {
+        root->right=insert(root->right,x);
+    }
+    return root;
+}
+
+
+int findMin(node *root){
+    node *tmp =root;
+    while(tmp->left!=NULL){
+        tmp=tmp->left;
+    }
+    return tmp->val;
+}
+int findMax(node *root){
+    node *tmp = root;
+    while(tmp->right!=NULL){
+        tmp = tmp->right;
+    }
+    return tmp->val;;
+}
+=======timf kiếm trên cây nhị phân =============
+bool timkiem(node *root, int ans){
+    if(root==NULL){
+        return false;
+    }
+    if(root->val==ans){
+        return true;
+    }
+    if(ans < root->val){
+         return timkiem(root->left,ans);
+    }else {
+         return timkiem(root->right,ans);
+
+    }
+
+
+}
+
+======xóa node có giá trị X tren cây nptk(hard)=========
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<ll, ll> 
+#define vii vector<pii> 
+#define pb push_back 
+#define fi first 
+#define el cout<<endl
+#define se second 
+#define in(a) cin>>  a;
+#define sz(a) a.size();
+#define out(a) cout<<  a;
+#define all(x) (x).begin(), (x).end()
+#define rep(a) for(int i = 0; i < (a); i++)
+#define vll vector<ll> 
+#define vi vector<int >
+#define ms(a,n) memset(a,n,sizeof(a))
+#define FOR(i,a,b) for(int i=a;i<=b;i++)
+#define FOD(i,b,a) for(int i=b;i>=a;i--)
+#define faster ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+const ll MOD = 1e9 + 7;
+
+struct node{
+    int val;
+    node *left, *right;
+    node(int x){
+        val = x;
+        left = right = NULL;
+    }
+};
+node* insert(node *root, int x){
+    if(root == NULL)
+        return new node(x);
+    if(x< root->val ){
+        root->left = insert(root->left, x);
+    }else {
+        root->right = insert(root->right, x);
+
+    }
+    return root;
+}
+node* findMind(node *root){
+    node *tmp = root;
+    while(tmp != NULL&& tmp->left != NULL){
+        tmp = tmp->left;
+
+    }
+    return tmp;
+}
+node* deleteNode(node *root, int x ){
+     if(root == NULL) return root;
+    if(x < root->val) root->left = deleteNode(root->left , x);
+    else if(x > root->val) root->right = deleteNode(root->right , x);
+    else
+    {
+        if(root->left == NULL && root->right == NULL) return NULL;
+        
+        else if(root->left == NULL)
+        {
+            node *tmp = root->right;
+            delete root;
+            return tmp;
+        }
+        else if(root->right == NULL)
+        {
+            node *tmp = root->left;
+            delete root;
+            return tmp;
+        }
+        node *tmp = findMind(root->right);
+        root->val = tmp->val;
+        root->right = deleteNode(root->right , root->val);
+    }
+    return root;
+}
+
+void inorder(node *root){
+    if(root==NULL) return;
+    inorder(root->left);
+    cout << root->val << ' ';
+    inorder(root->right);
+}
+int main()
+{
+    
+    faster;
+    int n;
+    cin >> n;
+    node *root = NULL;
+    for(int i=0; i<n; i++){
+        int x;
+        cin >> x;
+        root = insert(root, x);
+    }
+    int ans;
+    cin >> ans;
+    root=deleteNode(root, ans);
+    inorder(root);
+
+}

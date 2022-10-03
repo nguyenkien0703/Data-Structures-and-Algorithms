@@ -49,30 +49,6 @@ node* findMind(node *root){
     return tmp;
 }
 node* deleteNode(node *root, int x ){
-    // if(root==NULL)
-    //     return root;
-    // if(root->left==NULL && root->right==NULL){
-    //     return NULL;
-    // }
-    // if(root->left==NULL || root->right==NULL){
-    //     if(root->left==NULL){
-    //         node *tmp = root->right;
-    //         delete root;
-    //         return tmp;
-    //     }else {
-    //         node *tmp = root->left;
-    //         delete root;
-    //         return tmp;
-    //     }
-    // }else {
-    //     node *tmp=findMind(root->right);
-    //     root->val = tmp->val;
-    //     root->right=deleteNode(root->right,tmp->val);
-
-    // }
-    // return root;
-
-
      if(root == NULL) return root;
     if(x < root->val) root->left = deleteNode(root->left , x);
     else if(x > root->val) root->right = deleteNode(root->right , x);

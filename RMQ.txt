@@ -1,0 +1,7 @@
+======cong thức tìm min trên 1 đoạn có chiều dài là l ========
+dp[i][l]: gia tri nho nhat bat dau tu 1 den i va co chieu dai la l
+dp[i][l]= min(dp[i][l-1],dp[i+2^(l-1)][l-1])
+(cẩn thận ko là truy cập giá trị ptu ngoài giá trị mảng)
+và với mỗi truy vấn hỏi xem min[l,r] là bao nhiêu ? để tối ưu thì ta làm như sau 
++) tìm k lớn nhất sao cho 2^k <=(r-l+1)
+==> (min[l][k],min(r-2^k -1, ][k]

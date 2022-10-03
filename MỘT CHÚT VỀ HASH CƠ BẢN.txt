@@ -1,0 +1,166 @@
+======tìm vị trí của chuỗi t trong chuỗi s 
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pb push_back 
+#define faster ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+const ll MOD = 1e9 + 7;
+string s, t;
+ll p[1000006], f[1000006];
+ll getHash(ll l ,ll r ){
+	ll ans = ((f[r] - f[l - 1] * p[r-l+1] % MOD) + MOD)%MOD;
+	return ans;
+}
+int main()
+{
+	faster;
+	cin >> s >> t;
+	int n =s.size(), m=t.size();
+	s = ' ' + s;
+	t = ' ' + t;
+	p[0] = 1;// co so qhd
+
+	for (int i = 1; i <= m;i++)
+		p[i] = p[i - 1] * 31 % MOD;
+	ll hasht = 0;
+    // tính hash xâu t 
+	FOR(i,1,m){
+		hasht = (hasht * 31 + t[i] - 'a' + 1) % MOD;
+
+	}
+    // f[i]: hash của chuỗi từ chii số 1 đến chỉ số i của string s 
+	FOR(i,1,n){
+		f[i]=(f[i-1]* 31 + s[i]-'a' + 1) % MOD;
+	}
+
+	for (int i = 1; i + m - 1 <= n;i++)
+	{
+		if(hasht ==getHash(i,i+m-1) ){
+			cout << i << ' ';
+		}
+	}
+}
+======check đoạn [l,r] có phải là xâu đối xứng hay ko =====
+string s, t;
+ll f1[1000006], p[1000006],f2[1000006];
+ 
+ 
+ll getHash(ll  f[],ll l , ll r ){
+	ll ans =((f[r]-f[l-1] * p[r-l+1] )%MOD + MOD) %MOD;
+	return ans;
+}
+int main()
+ 
+{
+	faster;
+	cin >> s ;
+	int t;
+	cin >> t;
+	int n =s.length();
+	p[0] = 1;
+ 
+	s = ' ' + s;
+	for (int i = 1; i <= n;i++){
+		p[i] = (p[i - 1] * 31) % MOD;
+	}
+	for (int i = 1; i <= n;i++){
+		f1[i] = (f1[i - 1] * 31 + s[i] - 'a' + 1)%MOD;
+ 
+	}
+	reverse(s.begin()+1,s.end());
+	for (int i = 1; i <= n;i++){
+		f2[i]=(f2[i - 1] * 31 + s[i] - 'a' + 1)%MOD;
+	}
+	while (t--)
+	{
+		int l, r;
+		cin >> l >> r;
+		if(getHash(f1,l,r )== getHash(f2,n+1-r,n+1-l)){
+			cout << "YES\n";
+		}else cout<<"NO\n";
+	}
+	
+}
+
+
+===== xâu con đối xứng dài nhất bằng cách dùng hash=======
+#include<bits/stdc++.h>
+ 
+using namespace std;
+const int mod = 1e9+7; 
+ 
+#define fast ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
+ 
+typedef long long ll;
+typedef pair<int,int> pii;
+string s;
+ll f1[1000001];
+int n;
+ll f2[1000001], val1[1000001];
+ll getHash1(int l, int r) {
+    ll ans = ((f1[r]-f1[l-1]*val1[r-l+1])%mod + mod)%mod;
+    return ans;
+}
+ll getHash2(int l, int r) {
+    ll ans = ((f2[r]-f2[l-1]*val1[r-l+1])%mod + mod)%mod;
+    return ans;
+}
+bool Bs(int a) {
+    for(int i = 1; i <= n-a+1; i++) {
+        ll x = getHash1(i, i+a-1);
+        ll y = getHash2(n-(i+a-1)+1, n-i+1);
+        if(x == y) return true;
+    }
+    return false;
+}
+int main() {
+    fast
+    cin >> n;
+    cin >> s;
+    val1[0] =1;
+    s = ' '+s;
+    for(int i = 1; i <= n; i++) f1[i] = (f1[i-1]*31+s[i]-'a'+1)%mod;
+    for(int i = 1; i <= n; i++) val1[i] = val1[i-1]*31%mod;
+    for(int i = 1; i <= n; i++) f2[i] = (f2[i-1]*31+s[n-i+1]-'a'+1)%mod;
+    ll l = 0, r = 1e9, ans = 0;
+    while( l <= r) {
+        ll m = (l+r)/2;
+        if(Bs(m)) {
+            ans = max(ans, m);
+            if((m+r+1)/2 %2 == 0) {
+                l = m+1;
+            } else {
+                l = m+2;
+            }
+        } else {
+            if((m+l-1)/2 %2 == 0) {
+                r = m-1;
+            } else {
+                r = m-2;
+            }
+        }
+    }
+    l = 0, r = 1e9;
+    while(l <= r) {
+        ll m = (l+r)/2;
+        if(Bs(m)) {
+            ans = max(ans, m);
+            if((m+r+1)/2 %2 != 0) {
+                l = m+1;
+            } else {
+                l = m+2;
+            }
+        } else {
+            if((m+l-1)/2 %2 != 0) {
+                r = m-1;
+            } else {
+                r = m-2;
+            }
+        }
+    }
+    cout << ans;
+    return 0;
+}
+====xâu con đối xứng dài nhất liên tiếp bằng cách sử dụng qhđ====
+goi dp[i][j] la xau con doi xung dai nhat bat dau tu chi va co do dai la j 

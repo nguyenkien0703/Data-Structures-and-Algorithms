@@ -1,0 +1,245 @@
+//segment treee
+===========baì toán kiểu truy vấn, cho 1 mảng xong .....https://oj.vnoi.info/problem/segtree_itez1=====
+timf thằng lớn nhát trong đoạn đó
+void build (int id, int l ,int r ){
+	// vif ddaay laf đệ quy , nên ta caàn có trường hợp cơ sở
+	// case cơ sở chính là khi nó chạy đệ quy đến khi l =r
+	if(l==r){
+		node[id]=a[l];
+		return;
+	}
+
+
+	int mid= (l+r)/2;
+	build(id * 2, l, mid);
+	build(id * 2 + 1 , mid+ 1 ,r );
+	node[id]=max(node[id * 2 ],node[id* 2 + 1 ]);
+
+}
+
+
+int get_max(int id,int l , int r , int u,int v ){
+	// nếu đoạn u , v ko lien quan gì đến đoạn l, r
+	if(r<u  || v < l ) return -1e9;// vì nếu có số âm thì nếu mình return về giá trị âm thì nó sẽ ảnh hưởng đến kết quả khi lấy giá trị âm
+	// neeus ddoanj u, v trungf với đoạn l , r
+	// case thứ hai là đoạn l, r nos nhỏ hơn đoạn u,v 
+	// vì xu hướng là cập nhật thằng max từ dưới cây đi lên 
+	// nên max của đoạn u,v chính là max của đoan l,,r
+	if(u<=l && r<=v ){
+		return node[id];
+	}
+	// casse thứ ba là dở dở ương ương 
+	int mid = (l+r)/2;
+	int max_L= get_max(id*2 , l,mid,u,v);
+	int max_R= get_max(id*2 + 1 , mid + 1,r,u,v);
+	return max(max_L,max_R);
+}
+
+
+
+
+void update(int id, int l ,int r,int pos ,int val){
+	// neu vi tri pos nam ngoai khoang nay thi ko lien quan gi, 
+	//tức là ta chỉ làm vịeec với cái đoạn chứa giá trị của vị trí pos thôi 
+	if(pos< l  || pos > r ) return ;
+	if(l==r){
+		//truơngf hợp cơ sở
+		a[l]=val;
+		node[id]=val;
+		return ;// vi day la truong hop co so nen ta phai return
+
+	}
+
+	// còn nếu ko thì case thứ ba là nó dở dở ương ương,nằm ở giữa áy 
+	int mid = (l+r)/2;
+	update(2 * id, l, mid, pos,val );
+	update(2 * id + 1, mid+ 1, r, pos,val );
+	// caạp nhật node max của cái case thứ 3 này
+	node[id]=max(node[id*2],node[id * 2 + 1 ]);
+
+}
+====================bài toán (IT LAZY)mà nó tăng cả 1 đoạn rồi hỏi các truy vấn(có thể code bằng BIT, nhưng thường dùng segment hơn )============
+Bạn được cho một mảng gồm  số nguyên. Nhiệm vụ của bạn là xử lí 2 loại truy vấn:
+loafij 1 : 1 x y val, tăng đoạn x, y len val đơnbvị
+loại2 ; 2 l r : in ra ptu lớn nhâts trong đoạn l ,r
+
+https://oj.vnoi.info/problem/segtree_itlazy
+
+#include <bits/stdc++.h>
+using namespace std;
+const ll maxn =  1e5 + 1 ;
+ll lazy[4 * maxn];
+ll node[4 * maxn];
+ll n, a[maxn];
+
+void down(int id){
+	if(lazy[id]!=0){
+		// cap nhat gia tri vao thang node
+		node[id* 2 ]+=lazy[id];
+		node[id * 2 + 1] +=lazy[id];
+		// cap nhat gia tri vao thang lazy
+		lazy[id * 2] +=lazy[id];
+		lazy[id * 2+1] +=lazy[id];
+		// cap nhat xong thi 
+		lazy[id]=0;
+
+	}
+}
+void build(int id, int l  ,int r ){
+	if(l==r)
+	{
+		node[id]=a[l];
+		return ;
+	}
+	int m  = (l+r)/2;
+	build(id* 2,l,m);
+	build(id * 2 + 1,m+1,r);
+	node[id]=max(node[id * 2 +1],node[id * 2 ]);
+}
+
+ll get(int id, int l ,int r, int u , int v ){
+
+	if(r< u || l> v ){
+		return -1e14;
+
+	}
+	if(u<=l &&r <=v ){
+		return node[id];
+
+	}
+	down(id);
+	int m = (l+r)/2;
+	ll max_l = get(id* 2,l ,m ,u, v);
+	ll max_r=get(id* 2 + 1, m+1, r, u, v);
+	return max(max_r,max_l);
+}
+void update(int id, int l,int r, int u , int v, ll val ){
+	if(r<u || v < l ){
+		return;
+	}
+	if(u<=l && r <= v){
+		node[id]+=val;
+		lazy[id]+=val;
+		return ;
+	}
+	down(id);
+	int m = (l+r)/2;
+	update(id * 2, l  , m , u, v,val );
+	update(id * 2 + 1 , m+1, r, u ,v,val);
+	node[id]=max(node[id * 2],node[id * 2 + 1 ]);
+}
+
+
+
+void solve(){
+	cin>>n;
+	FOR(i,1,n){
+		cin>>a[i];
+	}
+	build(1,1,n);
+	int t ;
+	cin>> t;
+	while(t--){
+		int type,l, r ;
+		cin>>type>>l>>r;
+		if(type==1){
+			ll val;cin>>val;
+			update(1,1,n,l,r,val);
+		}else {
+			cout<< get(1,1,n,l,r);el;
+		}
+
+	}
+}
+int main()
+{
+
+    faster;
+  	solve();
+    
+
+}
+
+==============đoạn con lớn nhất============
+cho 1 mảng r cos các truy vấn sau, x, y tìm đoạn con có tổng lớn nhát trong đoạn x, y
+với x<=i <= j <=y
+#include <bits/stdc++.h>
+using namespace std;
+const ll maxn =   200005;
+ll a[maxn];
+struct node{
+	ll ans,s,maxl, maxr;
+};
+
+/*
+	gias trij lớn nhất của 1 số có thể dc xây dựn dựa trên ba case
+	giả sử có hai node là a bên dưới bên trái và node b bên phải bên dưới cùng cunngr 1 id,tự nhân lên 
+	thì giá trị lớn nhấ của node này có thể là giá trị lớn nhất cảu node a, or là node b 
+	or là bên phải của node a và bên trái của node b (case dở dở ương ương)
+*/
+
+node IT[maxn* 4];
+node operator  + (node &a, node &b){
+	node res;
+	res.ans= max(a.ans,b.ans,a.maxr + b.maxl);
+	res.s  = a.s+ b.s;
+	res.maxl=max(a.maxl,a.s + b.maxl);
+	res.maxr=max(b.maxr,b.s + a.maxr);
+	return res;
+}
+void build(int id,int l ,int r )
+{
+	if(l==r){
+		IT[id].ans=IT[id].s=IT[id].maxl=IT[id].maxr=a[l];
+		return ;
+	}
+	int m=(l+r)/2;
+	build(id * 2, l , m );
+	build(id * 2 + 1 , m +1,r);
+	// sua khi xay dung xong hai not dưới từ 1 nóó con bên trên thì công hai node đó lại
+	IT[id]= IT[id * 2] + IT[id * 2 + 1];
+}
+
+node get(int id, int l , int r,int u ,int v ){
+
+	if(r< u || v< l ){
+		return {(ll)-1e14,0,0,0};
+	}
+	if(u<=l && r <=v){
+		return IT[id];
+	}
+	int m =(l+r)/2;
+	node L= get(id * 2, l ,m,u,v);
+	node  R= get(id * 2 + 1,m +1, r, u, v);
+	return L + R;
+}
+ll n;
+
+void solve(){
+	cin>>n;
+	FOR(i,1,n){
+		cin>>a[i];
+
+	}   
+	build(1,1,n); 
+	int t ;
+	cin>> t;
+	while(t--){
+
+		int x, y;
+		cin>>x>>y;
+		cout<<get(1,1,n,x,y).ans;el;
+	}
+}
+
+int main()
+{
+
+    faster;
+  	solve();
+    
+
+}
+
+
+
