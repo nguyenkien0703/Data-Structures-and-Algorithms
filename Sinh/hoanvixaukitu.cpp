@@ -65,3 +65,20 @@ int main()
     }while(next_permutation(a,a+v.size()));
     
 }
+/*
+
+string s;
+
+void solve(){
+    cin >> s;
+    sort(all(s));
+    do{
+        cout << s;
+        el;
+    } while (next_permutation(all(s)));
+}
+
+
+
+
+*/
