@@ -213,7 +213,7 @@ void kruskal(){
     int d=0;// lưu tổng trọng số nhỏ nhất cần tìm 
     for(int i=0;i<n;i++){
         if(caykhungcuctieu.size()==n-1) break;
-        int u=canh[i].x,v=canh[i].v;
+        int u=canh[i].x,v=canh[i].y;
         if(Union(u,v)){
             caykhungcuctieu.pb(canh[i]);
             d+=canh[i].w;
@@ -275,7 +275,7 @@ void nhap(){
 void dijakstra(ll s){
     vll d(n + 1, 1e9);
     ms(used, 0);
-    // sap xep giam dan các trong so
+    // sap xep tang dan các trong so, mặc định nó là max_heap, nhưng mà code như này r thì là min_heap
     priority_queue<pii, vii, greater<pii>> q;
     q.push({0,s});
     d[s] = 0;
