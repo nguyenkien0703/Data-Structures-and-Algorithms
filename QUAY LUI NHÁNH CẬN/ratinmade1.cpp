@@ -32,74 +32,94 @@ RDRRDD
 
 */
 
-
 #include <bits/stdc++.h>
 using namespace std;
+
 #define ll long long
-#define pii pair<int, int>
+#define ull unsigned long long
+#define pii pair<ll, ll>
 #define vii vector<pii>
 #define pb push_back
 #define fi first
+#define el cout<<endl
+#define oo 1000000008
 #define se second
-#define in(a) cin >> a;
-#define out(a) cout << a;
-#define all(a) (begin(a), end(a))
+#define sz(a) a.size();
+#define all(x) (x).begin(), (x).end()
 #define vll vector<ll>
-#define vi vector<int>
-#define ms(a) memset(a, sizeof(a))
-#define FOR(i, a, b) for (int i = a; i <= b; i++)
-#define FOD(i, b, a) for (int i = b; i >= a; i--)
-#define faster                        \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(NULL);                    \
-    cout.tie(NULL);
+#define vi vector<int >
+template<class T> bool ckmin(T& a, const T& b) {
+	return b < a ? a = b, 1 : 0;
+}
+template<class T> bool ckmax(T& a, const T& b) {
+	return a < b ? a = b, 1 : 0;
+}
+#define f0(a) for(ll i = 0; i < (a); i++)
+#define f1(a) for(ll i = 1; i <= (a); i++)
+#define ms(a,n) memset(a,n,sizeof(a))
+#define FOR(i,a,b) for(ll i=a;i<=b;i++)
+#define FOD(i,b,a) for(int i=b;i>=a;i--)
+#define faster ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 const ll MOD = 1e9 + 7;
-char ans[10000];
-bool ok;
-int cnt, n, a[100][100];
-void nhap()
-{
-    cin >> n;
-    FOR(i, 1, n)
-    {
-        FOR(j, 1, n)
-        {
-            cin >> a[i][j];
-        }
-    }
+
+int n;
+ll check[11][11];
+int ok ;
+string s; 
+int a[11][11];;
+void Try(int i ,int j ){
+	if(i==n && j== n ){
+		cout<< s<<' ';ok =1;
+		
+	}
+	check[i][j]=1;
+	if(i+1<= n && a[i+1][j]==1 && check[i+1][j]==0){
+		s+="D";
+		Try(i+1, j);
+		s.pop_back();
+	}
+
+	if(j+1<=n && a[i][j+1]==1 && check[i][j+1]==0){
+		s+="R";
+		Try(i,j+1);
+		s.pop_back();
+	}
+
+	check[i][j]=0;
 }
-string s ;
-void Try(int i, int j, int cnt)
-{
-    if (i == n && j == n)
-    {
-        ok =true;
-        cout<<s<<endl;
-    }
-    if (i + 1 <= n && a[i + 1][j]==1)
-    {
-        s+="D";
-        // ++cnt;
-        a[i + 1][j] = 0;
-        Try(i + 1, j, cnt + 1);
-        a[i + 1][j] = 1;
-        s.pop_back();
-    }
-    if(j+1<=n && a[i][j+1]==1){
-        s+="R";
-        // ++cnt;
-        a[i][j+1] = 1;
-        Try(i , j+1, cnt + 1);
-        a[i][j+1] = 1;
-        s.pop_back();
-    }
+void solve() {
+
+	cin>> n;
+	ok =0;
+	for(int i=1;i<=n;i++){
+		FOR(j,1,n){
+			cin>> a[i][j];
+		}
+	}
+	if(a[1][1]==0){
+		cout<< -1;
+		el;
+		return ;
+	}
+	Try(1,1);
+	if(!ok){
+		cout<<-1;
+		
+	}
+		el;
 }
-int main()
-{
-    faster;
-    nhap();
-    Try(1,1,1);
-    if(!ok){
-        cout<<-1<<endl;
-    }else cout<<endl;
+int main() {
+
+	faster;
+
+	int t=1 ;
+	cin>> t;
+	while(t--) {
+		solve();
+
+
+
+
+	}
 }
+
