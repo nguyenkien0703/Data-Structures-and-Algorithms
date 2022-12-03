@@ -1,0 +1,136 @@
+===bài toán chi mảng thành k sao cho mỗi phần có tổng pằng nhau =====
+
+void Try(int sum, int cnt)
+{
+    if (ok == true)
+        return;
+    if (cnt == k)
+    {
+        ok = true;
+        return;
+    }
+    for (int j = 1; j <= n; j++)
+    {
+        if (used[j])
+        {
+            used[j] = 0;
+            if (sum == s)
+            {
+                Try(0, cnt + 1);
+                return;
+            }
+            if (sum > s)
+                return;
+            else
+                Try(sum + a[j], cnt);
+        }
+        used[j] = 1;
+    }
+}
+=======dãy con có tổng pằng k =====
+
+void Backtrack(ll sum , ll i, ll pos)
+{
+    if(sum == s)
+    {
+        cout << "[" ;
+        for(int j = 0 ; j < i ; j++)
+        {
+            cout << x[j];
+            if(j != i - 1) cout << " ";
+            else cout << "]";
+        }
+        cout << endl;
+    }
+    for(ll j = pos ; j < n ;++j)
+    {
+        if(sum + a[j] <= s)
+        {
+            x[i] = a[j];
+            Backtrack(sum + a[j] , i + 1 , j + 1);
+        }
+    }
+}
+
+int main()
+{
+    cin >> n >> s;
+    for(ll i = 0 ; i < n ;i++) cin >> a[i];
+    sort(a , a + n);
+    Backtrack(0 , 0 , 0);
+}
+========dayx con từ hai phần tử trở lên tăngg dần======
+
+void Backtrack(int i , int pos)
+{
+    if(i >= 2)
+    {
+        string tmp = "";
+        for(int j = 0 ; j < i ; j++)
+        {
+            tmp += to_string(x[j]) + " ";
+        }
+        ans.push_back(tmp);
+    }
+    for(int j = pos ; j < n ; j++)
+    {
+        if(a[j] > x[i - 1])
+        {
+            x[i] = a[j];
+            Backtrack(i + 1, j + 1);
+        }
+    }
+}
+
+int main()
+{
+    cin >> n;
+    for(int i = 0 ; i < n ; i++) cin >> a[i];
+    Backtrack(0 , 0);
+    sort(ans.begin(), ans.end());
+    for(string x : ans) cout << x << endl;
+}
+
+=====chia mảng thành hai tập bằng nhau dc ko ====
+void Try(int i,int s ){
+    if(ok ==1){
+        return ;
+    }
+    if(s==sum/2){
+        ok =1;
+        return ;
+    }
+    FOR(j,i,n){
+        if(s+a[j]<=sum/2){
+            Try(i+1,s+a[j]);
+        }
+    }
+    
+}
+
+=========đếm xem có bao nhiêu mảng có k ptu và tổng là s, k dc quá n 
+
+void Backtrack(int sum , int cnt,int pos)
+{
+    if(sum == s && cnt == k)
+    {
+        ++res;
+        return;
+    }
+    for(int j = pos ; j <= n ; j++)
+    {
+        if(sum + j <= s)
+        {
+            Backtrack(sum + j , cnt + 1, j + 1);
+        }
+    }
+}
+
+int main()
+{
+    cin >> n >> k >> s;
+    res = 0;
+    Backtrack(0 ,0 , 1);
+    cout << res;
+}
+====
