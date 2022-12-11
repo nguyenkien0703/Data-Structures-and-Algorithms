@@ -1,0 +1,66 @@
+/*
+Cho xâu ký tự S chỉ bao gồm các ký tự số. Nhiệm vụ của bạn là đếm các xâu con của S chia hết cho N. Ví dụ S =”1234”, N = 4 ta nhận được kết quả là 4 tương ứng với 4 xâu con chia hết cho 4: 4, 12, 24, 124. Xâu con có thể chứa các kí tự không liên tiếp nhau.
+
+Input:
+
+Dòng đầu tiên đưa vào số lượng bộ test T.
+Những dòng kế tiếp đưa vào T bộ test. Mỗi bộ test gồm hai phần: phần thứ nhất là hai số M, N, trong đó M là độ dài xâu S; phần tiếp theo là xâu S gồm M số.
+T, M, N, S thỏa mãn ràng buộc: 1≤ T ≤100; 1≤ M, N <= 100.
+Output:
+
+Đưa ra kết quả mỗi test theo từng dòng.
+Input:
+
+Output:
+
+2
+4 4
+
+1234
+
+3 6
+676
+
+4
+3
+
+ 
+*/
+
+
+
+#include <bits/stdc++.h>
+#define faster() ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+using namespace std;
+using ll = long long;
+const ll MOD = 1e9+7;
+const ll maxn = 1e5+5;
+const ll inf = 1e18;
+ll dp[105][105];
+void solve()
+{    
+	int n, m; cin >> n >> m;
+	string s; cin >> s;
+	s = ' ' + s;
+	memset(dp, 0, sizeof(dp));
+	dp[0][0] = 1;
+	for(int i = 1; i <= n; i++)
+	{
+		int c = (s[i] - '0') % m;
+		for(int j = 0; j < m; j++)
+		{
+			dp[i][j] += dp[i-1][j];
+			dp[i][(j * 10 + c) % m] += dp[i-1][j];
+		}
+	}
+	cout << dp[n][0] - 1 << '\n';
+}    	
+int main()
+{
+    faster();
+    int t = 1; cin >> t;
+    while(t--)
+    {
+        solve();
+    }
+}
