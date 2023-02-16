@@ -44,14 +44,16 @@ XYZ-+
 */
 string s;
 ll douutien(char x ){
-    if(x=='*' || x=='/'){
+	if(x=='^'){
+		return 3;
+	}
+    else if(x=='*' || x=='/'){
         return 2;
     }else if(x=='+' || x=='-'){
         return 1;
     }else
         return 0;
 }
-
 int main()
 {
     
