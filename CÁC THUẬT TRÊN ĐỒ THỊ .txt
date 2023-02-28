@@ -288,8 +288,9 @@ void dijakstra(ll s){
         ll u = top.second;
         for(auto it:  ke[u]){
             ll v = it.fi, w = it.se;
+	    // nếu khoảng cách từ s đến v mà lớn hơn khoảng cách (từ s đến u và từ u đến v ) thì 
             if(d[v] > d[u]+ w ){
-                d[v] = d[u] + w;
+                d[v] = d[u] + w;// gán lại khoảng cách cho v
                 q.push({d[v],v});
             }
         }
