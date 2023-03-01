@@ -1,3 +1,25 @@
+ĐẾM DÃY
+
+Best solutions
+Cho số nguyên dương n. Hãy cho biết có bao nhiêu dãy số nguyên dương có tổng các phần tử trong dãy bằng n. 
+
+Dữ liệu vào: dòng đầu tiên chứa số nguyên T là số bộ dữ liệu, mỗi bộ dữ liệu ghi một số nguyên dương n duy nhất không qua 1018. 
+
+Kết quả: Mỗi bộ dữ liệu ghi ra một số nguyên duy nhất là số dư của kết quả tìm được khi chia cho 123456789.
+
+Ví dụ:
+
+Input
+
+Output
+
+1
+
+3
+
+4
+// giai thich test [1,1,1,1] [1,2] [2,1] [3] == > coong thuwcs 2^(n-1) 
+
 #include <bits/stdc++.h>
 using namespace std;
 
