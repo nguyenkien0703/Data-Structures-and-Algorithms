@@ -21,6 +21,28 @@ Sample Output 0
 
 1
 */
+========
+    /*
+    ll n, s;
+void solve(){
+	 cin>>n>>s;
+    vector<ll> v(n+1);
+    for(int i=0;i<n;i++) cin>>v[i];
+   	map<ll,ll> mp;
+   ll sum =0;
+   for(int i=0;i<n;i++){
+   		sum +=v[i];
+   		// neu tong bang s va da ton tai so co tong la sum - s,
+   		if(sum == s || mp[sum-s]){
+   			cout<<"YES";el;
+   			return;
+   		}
+   		mp[sum]=1;
+   }
+   cout<<"NO";el;
+
+}
+    */
 
 #include<bits/stdc++.h>
 using namespace std;
