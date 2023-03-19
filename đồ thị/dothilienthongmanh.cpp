@@ -36,89 +36,53 @@ Sample Output 0
 
 */
 
-
 #include <bits/stdc++.h>
+#define endl "\n"
 using namespace std;
-
-#define ll long long
-#define pii pair<ll, ll> 
-#define vii vector<pii> 
-#define pb push_back 
-#define fi first 
-#define el cout<<endl
-#define se second 
-#define in(a) cin>>  a;
-#define out(a) cout<<  a;
-#define all(x) (x).begin(), (x).end()
-#define rep(a) for(int i = 0; i < (a); i++)
-#define vll vector<ll> 
-#define vi vector<int >
-#define ms(a,n) memset(a,n,sizeof(a))
-#define FOR(i,a,b) for(int i=a;i<=b;i++)
-#define FOD(i,b,a) for(int i=b;i>=a;i--)
-#define faster ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
-const ll MOD = 1e9 + 7;
-
-int n, m;
-vll ke[1001],T_ke[1001];
-ll used[1001];
-stack<int> st;
-
-void dfs(int u){
-    used[u] = 1;
-    for (int x : ke[u]){
-        if(!used[x]){
-            dfs(x);
-        }
-    }
-    st.push(u);
-
-}
-
-void T_dfs(int u ){
-    used[u] = 1;
-
-    for(int x : T_ke[u]){
-        if(!used[x]){
-            T_dfs(x);
-        }
-    }
-}
-
-
-void solve(){
-    cin >> n >> m;
-    for(int i=0;i<m;i++)
-    {
-        int x, y;
-        cin >> x >> y;
-        ke[x].pb(y);
-        T_ke[y].pb(x);
-    }
-    ms(used, 0);
-    for (int i = 1; i <= n;i++){
-        if(!used[i]){
-            dfs(i);
-        }
-    }
-    int cnt = 0;
-    ms(used, 0);
-    while(!st.empty()){
-        int top = st.top();
-        st.pop();
-        if(!used[top]){
-            ++cnt;
-            T_dfs(top);
-        }
-    }
-    cout << (cnt == 1 ? 1 : 0);
-}
 int main()
 {
-    
-    faster;
-        solve();
-    
-    
-
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n, m, x, y, ok = 1;
+        cin >> n >> m;
+        queue<int> q;
+        vector<bool> check(n + 1, 0);
+        vector<vector<int>> a(n + 1);
+        for (int i = 0; i < m; i++)
+        {
+            cin >> x >> y;
+            a[x].push_back(y);
+        }
+        q.push(1);
+        check[1] = 1;
+        while (q.size())
+        {
+            x = q.front();
+            q.pop();
+            for (auto y : a[x])
+            {
+                if (check[y]==0)
+                {
+                    check[y] = 1;
+                    q.push(y);
+                }
+            }
+        }
+        for (int i = 2; i <= n; i++)
+        {
+            if (check[i]==0)
+            {
+                ok = 0;
+                break;
+            }
+        }
+        if (ok)
+            cout << "YES" << endl;
+        else
+            cout << "NO" << endl;
+    }
 }
