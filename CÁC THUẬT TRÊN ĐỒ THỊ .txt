@@ -141,22 +141,25 @@ nếu Union trả về false nghĩa là tạo thành chu trình(nằm cùng 1 th
 using namespace std;
 
 #define ll long long
-#define pii pair<ll, ll> 
-#define vii vector<pii> 
-#define pb push_back 
-#define fi first 
-#define el cout<<endl
-#define se second 
-#define in(a) cin>>  a;
-#define out(a) cout<<  a;
+#define pii pair<ll, ll>
+#define vii vector<pii>
+#define pb push_back
+#define fi first
+#define el cout << endl
+#define se second
+#define in(a) cin >> a;
+#define out(a) cout << a;
 #define all(x) (x).begin(), (x).end()
-#define rep(a) for(int i = 0; i < (a); i++)
-#define vll vector<ll> 
-#define vi vector<int >
-#define ms(a,n) memset(a,n,sizeof(a))
-#define FOR(i,a,b) for(int i=a;i<=b;i++)
-#define FOD(i,b,a) for(int i=b;i>=a;i--)
-#define faster ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+#define rep(a) for (int i = 0; i < (a); i++)
+#define vll vector<ll>
+#define vi vector<int>
+#define ms(a, n) memset(a, n, sizeof(a))
+#define FOR(i, a, b) for (int i = a; i <= b; i++)
+#define FOD(i, b, a) for (int i = b; i >= a; i--)
+#define faster                        \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(nullptr);                 \
+    cout.tie(nullptr);
 const ll MOD = 1e9 + 7;
 int n ;
 int parent[1001];
@@ -167,13 +170,16 @@ void init(){
         sz[i]=1;
     }
 }
-bool Find(ll u ){
+int  Find(ll u ){
     if(u==parent[u]){
         return u;
     }else {
         return parent[u]=Find(parent[u]);
     }
 }
+
+
+
 bool Union(int u,int v ){
     u=Find(u);
     v=Find(v);
@@ -198,28 +204,35 @@ struct  canh
 };
 vector<canh> edge;
 vector<canh> caykhungcuctieu;
-
+int m ;
 void kruskal(){
-    // buoc 1 : sort theo trong so tang dan
-    for(int i=0;i<n;i++){
+
+	cin>> n>>m ;
+    init();
+    edge.clear();
+    caykhungcuctieu.clear();
+
+    for(int i=0;i<m;i++){
         int x,y,w;
         cin>>x>>y>>w;
         edge.pb({x,y,w});
 
     }
-    sort(all(edge),[](edge x,edge y)->bool{
+    sort(all(edge),[](canh x,canh y)->bool{
         return x.w < y.w;
-    })
-    int d=0;// lưu tổng trọng số nhỏ nhất cần tìm 
-    for(int i=0;i<n;i++){
+    });
+
+    int kien=0;
+    for(int i=0;i<m;i++){
         if(caykhungcuctieu.size()==n-1) break;
-        int u=canh[i].x,v=canh[i].y;
+        int u=edge[i].x,v=edge[i].y;
         if(Union(u,v)){
-            caykhungcuctieu.pb(canh[i]);
-            d+=canh[i].w;
+            caykhungcuctieu.pb(edge[i]);
+            kien+=edge[i].w;
         }        
     }    
-}   cout<< d<<endl;
+    cout<< kien<<endl;
+}   
 
 
 int main()
@@ -229,9 +242,15 @@ int main()
     freopen("output.txt", "w", stdout);
     #endif 
     faster;
-    
+    int t;
+    cin>> t;
+    while(t--){
+	    kruskal();
+
+    }
 
 }
+
 
 ====CÁC THUẬT TÌM ĐƯỜNG ĐI NGẮN NHẤT TREEN ĐỒ THỊ (dijkstra,bellman ford, floyd) từ 1 đỉnh đến mọi đỉnh trên đồ thị=======
 
