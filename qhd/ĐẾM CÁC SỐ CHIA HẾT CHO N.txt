@@ -38,7 +38,7 @@ const ll maxn = 1e5+5;
 const ll inf = 1e18;
 ll dp[105][105];
 void solve()
-{    
+{    // dp[i][j]: co i chu so va so du la j 
 	int n, m; cin >> n >> m;
 	string s; cin >> s;
 	s = ' ' + s;
