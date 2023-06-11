@@ -5,6 +5,12 @@ dp[i][j]: xau con chung dai nhat tu chi so 1 den chi so i cua s va tu 1 den j cu
 	}else {
 		dp[i][j] = max(dp[i-1][j],dp[i][j-1])
 	}
+========xâu con chung dài nhất không liên tiếp, code y chang như liên tiếp ==============
+if(s[i-1]==t[j-1]){
+		dp[i][j]= dp[i-1][j-1] + 1;
+	}else {
+		dp[i][j] = max(dp[i-1][j],dp[i][j-1])
+	}
 ========dãy con có tổng bằng s========
 dp[i][j]: lieu co the chonj ra day con tu 1 den i ma co tong la j hay khoonh 
 for (int i = 0; i < n;i++){
