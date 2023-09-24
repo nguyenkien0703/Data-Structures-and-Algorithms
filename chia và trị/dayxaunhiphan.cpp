@@ -66,7 +66,7 @@ void  init(){
     f[0] = 0;
     f[1] = 1;
     for (ll i = 2; i <= 93;i++){
-        f[i] = f[i - 1] + f[i - 2];
+        f[i] = f[i - 2] + f[i - 1];
         f[i] %= MOD;
     }
 }
